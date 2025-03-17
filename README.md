@@ -15,15 +15,14 @@ This is a simple web application built with Django and React for encryption and 
 
 *   **Frontend:**
     *   React
-    *   HTML
-    *   CSS
-    *   JavaScript
+
 
 *   **Backend:**
     *   Django
-    *   Python
     *   djangorestframework (DRF)
     *   PyCryptodome (for AES and 3DES)
+    *   onetimepad (for OTP)
+
 
 
 ## Usage
