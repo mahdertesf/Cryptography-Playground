@@ -24,6 +24,8 @@ This is a simple web application built with Django and React for encryption and 
     *   Python
     *   djangorestframework (DRF)
     *   PyCryptodome (for AES and 3DES)
+    *   onetimepad
+
 
 
 ## Usage
