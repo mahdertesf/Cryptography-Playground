@@ -35,7 +35,7 @@ def encryptorView(request):
             if len(key) not in (16, 24):
                 raise ValueError("3DES key must be either 16 or 24 bytes long")
             plaintext = data.get("encinput").encode()
-            iv = b'12345678'  # 8-byte IV for 3DES
+            iv = b'12345678'
             cipher = DES3.new(key, DES3.MODE_CBC, iv)
             padded_plaintext = pad(plaintext, DES3.block_size)
             ciphertext = cipher.encrypt(padded_plaintext)

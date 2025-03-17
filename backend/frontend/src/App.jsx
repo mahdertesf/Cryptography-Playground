@@ -26,7 +26,9 @@ export default function App() {
         }),
       });
       if (!response.ok) {
-        throw new Error("Failed to fetch");
+
+        const data = await response.json();
+        throw new Error(data.error);
       }
       const data = await response.json();
       setEncoutput(data.enc_ciphertext); 
