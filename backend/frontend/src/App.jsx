@@ -12,7 +12,7 @@ export default function App() {
   const [decoutput, setDecoutput] = useState("");
 
   const encryptHandler = async () => {
-    setError("")
+    setError("");
     try {
       const response = await fetch("http://127.0.0.1:8000/api/encryption/", {
         method: "POST",
@@ -26,19 +26,18 @@ export default function App() {
         }),
       });
       if (!response.ok) {
-
         const data = await response.json();
         throw new Error(data.error);
       }
       const data = await response.json();
-      setEncoutput(data.enc_ciphertext); 
+      setEncoutput(data.enc_ciphertext);
     } catch (error) {
       setError(error.message);
     }
   };
 
   const decryptHandler = async () => {
-    setError("")
+    setError("");
     try {
       const response = await fetch("http://127.0.0.1:8000/api/decryption/", {
         method: "POST",
@@ -52,10 +51,11 @@ export default function App() {
         }),
       });
       if (!response.ok) {
-        throw new Error("Failed to fetch");
+        const data = await response.json();
+        throw new Error(data.error);
       }
       const data = await response.json();
-      setDecoutput(data.dec_ciphertext); 
+      setDecoutput(data.dec_ciphertext);
     } catch (error) {
       setError(error.message);
     }
@@ -77,13 +77,17 @@ export default function App() {
             <option value="OTP">OTP</option>
             <option value="3DES">3DES</option>
             <option value="AES">AES</option>
+            <option value="RSA">RSA</option>
           </select>
         </div>
         {error && <div className="text-red-500">{error}</div>}
         <div className="flex gap-6 bg-blue-200 w-full h-full p-20 max-md:p-5 max-md:flex-col">
           <div className="flex flex-col gap-3 bg-white w-1/2 h-full max-md:w-full">
             <div className="bg-blue-400 w-full h-1/2 flex flex-col gap-2 items-center justify-center px-10">
-              <label htmlFor="encinput" className="text-3xl font-serif my-3 max-md:text-2xl text-center">
+              <label
+                htmlFor="encinput"
+                className="text-3xl font-serif my-3 max-md:text-2xl text-center"
+              >
                 Enter Message to Encrypt
               </label>
               <textarea
@@ -96,10 +100,16 @@ export default function App() {
                 placeholder="Enter Message to Encrypt"
               ></textarea>
               <div className="flex gap-7 m-4 justify-center w-full">
-                <label htmlFor="encryptionkey" className="text-xl text-neutral-700 max-md:text-sm w-full">
+                <label
+                  htmlFor="encryptionkey"
+                  className="text-xl text-neutral-700 max-md:text-sm w-full"
+                >
                   Enter Encryption key
+                  {algorithm === "RSA"
+                    ? "(Public Key PEM Format)"
+                    : null}
                 </label>
-                <input
+                <textarea
                   id="encryptionkey"
                   value={encryptionkey}
                   placeholder="Enter Encryption key"
@@ -107,13 +117,18 @@ export default function App() {
                   onChange={(e) => setEncryptionkey(e.target.value)}
                 />
               </div>
-              <button className="bg-yellow-400 text-white w-auto h-auto p-2 my-3 rounded-full" onClick={encryptHandler}>
+              <button
+                className="bg-yellow-400 text-white w-auto h-auto p-2 my-3 rounded-full"
+                onClick={encryptHandler}
+              >
                 Encrypt
               </button>
             </div>
 
             <div className="bg-blue-400 w-full h-1/2 flex flex-col items-center pt-3">
-              <h2 className="text-3xl font-serif my-3 max-md:text-2xl">Result</h2>
+              <h2 className="text-3xl font-serif my-3 max-md:text-2xl">
+                Result
+              </h2>
               {encoutput && (
                 <div className="bg-white text-black w-auto h-auto mb-5 mx-10 max-md:text-xs p-2 overflow-scroll">
                   {encoutput}
@@ -124,7 +139,10 @@ export default function App() {
           </div>
           <div className="flex flex-col gap-3 bg-white w-1/2 h-full max-md:w-full">
             <div className="bg-blue-400 w-full h-1/2 flex flex-col gap-2 items-center justify-center px-10">
-              <label htmlFor="decinput" className="text-3xl max-md:text-2xl font-serif my-3 text-center">
+              <label
+                htmlFor="decinput"
+                className="text-3xl max-md:text-2xl font-serif my-3 text-center"
+              >
                 Enter Message to Decrypt
               </label>
               <textarea
@@ -137,10 +155,16 @@ export default function App() {
                 placeholder="Enter Message to Decrypt"
               ></textarea>
               <div className="flex gap-7 m-4 justify-center w-full">
-                <label htmlFor="decryptionkey" className="text-xl text-neutral-700 max-md:text-sm w-full">
+                <label
+                  htmlFor="decryptionkey"
+                  className="text-xl text-neutral-700 max-md:text-sm w-full"
+                >
                   Enter Decryption key
+                  {algorithm === "RSA"
+                    ? "(Private Key PEM Format)"
+                    : null}
                 </label>
-                <input
+                <textarea
                   id="decryptionkey"
                   value={decryptionkey}
                   placeholder="Enter Decryption key"
@@ -148,12 +172,17 @@ export default function App() {
                   onChange={(e) => setDecryptionkey(e.target.value)}
                 />
               </div>
-              <button className="bg-yellow-400 text-white w-auto h-auto p-2 my-3 rounded-full" onClick={decryptHandler}>
+              <button
+                className="bg-yellow-400 text-white w-auto h-auto p-2 my-3 rounded-full"
+                onClick={decryptHandler}
+              >
                 Decrypt
               </button>
             </div>
             <div className="bg-blue-400 w-full h-1/2 flex flex-col items-center pt-3">
-              <h2 className="text-3xl font-serif my-3 max-md:text-2xl">Result</h2>
+              <h2 className="text-3xl font-serif my-3 max-md:text-2xl">
+                Result
+              </h2>
               {decoutput && (
                 <div className="bg-white text-black w-auto h-auto mb-5 mx-10 overflow-scroll max-md:text-xs p-2">
                   {decoutput}
