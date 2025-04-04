@@ -1,0 +1,17 @@
+asgiref==3.8.1
+certifi==2025.1.31
+charset-normalizer==3.4.1
+crypto==1.4.1
+Django==4.2.20
+django-cors-headers==4.7.0
+djangorestframework==3.16.0
+idna==3.10
+Naked==0.1.32
+onetimepad==1.4
+pycryptodome==3.22.0
+PyYAML==6.0.2
+requests==2.32.3
+shellescape==3.8.1
+sqlparse==0.5.3
+typing_extensions==4.13.0
+urllib3==2.3.0

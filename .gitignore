@@ -25,3 +25,5 @@ dist-ssr
 
 # Ignore EcryptionEnv environment anywhere in the repository
 EcryptionEnv
+Env/
+Env2/
