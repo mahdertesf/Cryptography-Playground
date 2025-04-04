@@ -104,22 +104,22 @@ This is a simple web application built with Django and React for encryption and 
 
 5.  **Pasting the Public Key:**
     *   Paste the public key (copied from the `public_key.pem` file) into the encryption key field in the React frontend.
-        ![My Image](/readmefiles/image8.png)
+        ![My Image](/readmefiles/image9.png)
 
 6.  **Encrypting:**
     *   Click the "Encrypt" button to send an API request to the `/encryptor/` endpoint in Django.
-        ![My Image](/readmefiles/image9.png)
+        ![My Image](/readmefiles/image10.png)
 
 7.  **Decrypting:**
     *   Copy the ciphertext from the "Result" section of the encryption panel.
     *   Select "RSA" from the algorithms dropdown in the *decryption* section.
     *   Paste the ciphertext into the decryption input field.
     *   Paste the *entire* content of the `private_key.pem` file into the decryption key field.
-        ![My Image](/readmefiles/image10.png)
+        ![My Image](/readmefiles/image11.png)
 
 8.  **Viewing the Decrypted Result:**
     *   Click the "Decrypt" button to send an API request to the `/decryptor/` endpoint in Django and see the decrypted result in the corresponding "Result" section. The decrypted text should match the original "Hello Mahder" message.
-        ![My Image](/readmefiles/image11.png)
+        ![My Image](/readmefiles/image12.png)
 
 ## API Endpoints (Django)
 
