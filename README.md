@@ -10,7 +10,7 @@ This is a simple web application built with Django and React for encryption and 
     *   One-Time Pad (OTP)
     *   Advanced Encryption Standard (AES)
     *   Triple DES (3DES)
-    *   RSA (Rivest-Shamir-Adleman)  <!-- Added RSA -->
+    *   RSA (Rivest-Shamir-Adleman)
 
 ## Technologies Used
 
@@ -20,22 +20,22 @@ This is a simple web application built with Django and React for encryption and 
 *   **Backend:**
     *   Django
     *   djangorestframework (DRF)
-    *   PyCryptodome (for AES, 3DES, and RSA) <!-- Updated PyCryptodome -->
+    *   PyCryptodome (for AES, 3DES, and RSA)
     *   onetimepad (for OTP)
 
 ## Setup
 
-1. **Install Dependencies:**
-   * For the Django backend, navigate to your project directory and run:
+1.  **Install Dependencies:**
+    *   For the Django backend, navigate to your project directory and run:
 
-     ```bash
-     pip install djangorestframework pycryptodome onetimepad
-     ```
-   * For the React frontend, navigate to your frontend directory and run:
+        ```bash
+        pip install djangorestframework pycryptodome onetimepad
+        ```
+    *   For the React frontend, navigate to your frontend directory and run:
 
-     ```bash
-     npm install
-     ```
+        ```bash
+        npm install
+        ```
 
 2.  **Generate RSA Keys (if you plan to use RSA):**
     *   Use OpenSSL to generate a 2048-bit RSA key pair:
@@ -44,42 +44,94 @@ This is a simple web application built with Django and React for encryption and 
         openssl genpkey -algorithm RSA -out private_key.pem -pkeyopt rsa_keygen_bits:2048
         openssl rsa -in private_key.pem -pubout -out public_key.pem
         ```
-    *   Keep `private_key.pem` secure.  The *contents* of `public_key.pem` will be used for encryption.  The *contents* of `private_key.pem` will be used for decryption.
-  <!-- Added RSA key generation instructions -->
+    *   Keep `private_key.pem` secure. The *contents* of `public_key.pem` will be used for encryption. The *contents* of `private_key.pem` will be used for decryption.
 
 ## Usage
 
 1.  **Access the application in your browser:** The React app will typically run on `http://localhost:3000`. The Django server is usually on `http://localhost:8000`, but this is relevant mostly for API interaction.
 
-2.  **Encryption:**
+2.  **General Encryption and Decryption Steps:**
     *   Select an algorithm from the "Choose Algorithm" dropdown.
         ![My Image](/readmefiles/image1.png)
-    *   Enter the message you want to encrypt in the "Enter Message to Encrypt" text area.
-    *   Enter the encryption key in the "Enter Encryption Key" field.  Note the key requirements depending on the algorithm - see the "Key Requirements and Notes" section below.
-    *   Click the "Encrypt" button.
-    *   The encrypted message will be displayed in the "Result" section. You can copy it to the clipboard.
+    *   Enter the message you want to encrypt or decrypt in the corresponding text area.
+    *   Enter the appropriate key in the "Enter Encryption Key" or "Enter Decryption Key" field. Note the key requirements depending on the algorithm - see the "Key Requirements and Notes" section below.
+    *   Click the "Encrypt" or "Decrypt" button.
+    *   The result will be displayed in the "Result" section. You can copy it to the clipboard.
         ![My Image](/readmefiles/image2.png)
 
-3.  **Decryption:**
-    *   Select the same algorithm used for encryption.
-        ![My Image](/readmefiles/image3.png)
-    *   Enter the encrypted message in the "Enter Message to Decrypt" text area.
-    *   Enter the *same* encryption key used for encryption in the "Enter Decryption Key" field. **For RSA, make sure you use the *private* key for decryption!**.
-        ![My Image](/readmefiles/image4.png)
-    *   Click the "Decrypt" button.
-    *   The decrypted message will be displayed in the "Result" section. You can copy it to the clipboard.
-        ![My Image](/readmefiles/image5.png)
+## RSA-Specific Procedure
+
+*This section details how to use the RSA algorithm within the application.*
+
+1.  **Generating the Key Pair:**
+    *   Use the OpenSSL command to generate the private key:
+
+        ```bash
+        openssl genpkey -algorithm RSA -out private_key.pem -pkeyopt rsa_keygen_bits:2048
+        ```
+
+    *   Select "RSA" from the algorithms dropdown in the encryption section.
+        ![My Image](/readmefiles/image6.png)
+
+2.  **Entering the Plaintext:**
+    *   Enter the message "Hello Mahder" (or any message you want to encrypt) into the "Enter Message to Encrypt" text area in the React frontend.
+        ![My Image](/readmefiles/image7.png)
+
+3.  **Extracting the Public Key:**
+    *   Use the OpenSSL command to extract the public key from the private key:
+
+        ```bash
+        openssl rsa -in private_key.pem -pubout -out public_key.pem
+        ```
+
+    *   The keys are generated as separate `.pem` files.
+        ![My Image](/readmefiles/image8.png)
+
+4.  **Copying the Public Key:**
+    *   Copy the *entire* content of the `public_key.pem` file, including the `-----BEGIN PUBLIC KEY-----` and `-----END PUBLIC KEY-----` lines.
+
+    ```
+    -----BEGIN PUBLIC KEY-----
+    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlyDls2Z3lLfBcAOV+NSq
+    VcTMC5LZRqhWroW+VGhlfzvL8GJNwg3RspuTvieM1h9U+vjCI2Ybexn2tDgp4LML
+    LlznXQseYWFyFb5zneNj36roIH+bB820qxneHimmWMsEZVJWHo7Vs1M1b2wxiweL
+    rxVNrFgrnVfLn+5wd4pnmJ615mNOi5h9FG81Rbud962AQ6WW69hSClQPFhARu58j
+    HkkjgCCkAX5REiO4TWucR8qdnMHBlaYeqCZDTWe3USvCpslSgKdkiFqhwN9/q3s5
+    gtvAacui0X04iNsiif/pdS/XNvqY3FAHKM4A1pk8ctrtTRVBKhNQoXPqMrNLvSgI
+    jQIDAQAB
+    -----END PUBLIC KEY-----
+    ```
+
+5.  **Pasting the Public Key:**
+    *   Paste the public key (copied from the `public_key.pem` file) into the encryption key field in the React frontend.
+        ![My Image](/readmefiles/image8.png)
+
+6.  **Encrypting:**
+    *   Click the "Encrypt" button to send an API request to the `/encryptor/` endpoint in Django.
+        ![My Image](/readmefiles/image9.png)
+
+7.  **Decrypting:**
+    *   Copy the ciphertext from the "Result" section of the encryption panel.
+    *   Select "RSA" from the algorithms dropdown in the *decryption* section.
+    *   Paste the ciphertext into the decryption input field.
+    *   Paste the *entire* content of the `private_key.pem` file into the decryption key field.
+        ![My Image](/readmefiles/image10.png)
+
+8.  **Viewing the Decrypted Result:**
+    *   Click the "Decrypt" button to send an API request to the `/decryptor/` endpoint in Django and see the decrypted result in the corresponding "Result" section. The decrypted text should match the original "Hello Mahder" message.
+        ![My Image](/readmefiles/image11.png)
 
 ## API Endpoints (Django)
 
 *   **`/encrypt` (POST):** Encrypts a message.
+
     *   **Request Body:**
 
         ```json
         {
-            "algorithm": "AES",   // Or "OTP", "3DES", or "RSA"  <!-- Added RSA to list -->
+            "algorithm": "AES",   // Or "OTP", "3DES", or "RSA"
             "encinput": "Hello World",
-            "encryptionkey": "YourSecretKey"  //Depends on algorithm requirement - see notes below
+            "encryptionkey": "YourSecretKey"  // Depends on algorithm requirement - see notes below
         }
         ```
 
@@ -87,18 +139,19 @@ This is a simple web application built with Django and React for encryption and 
 
         ```json
         {
-            "enc_ciphertext": "Base64EncodedCiphertext" //Or ciphertext, depending on algorithm
+            "enc_ciphertext": "Base64EncodedCiphertext" // Or ciphertext, depending on algorithm
         }
         ```
 
 *   **`/decrypt` (POST):** Decrypts a message.
+
     *   **Request Body:**
 
         ```json
         {
-            "algorithm": "AES",   // Or "OTP", "3DES", or "RSA"  <!-- Added RSA to list -->
-            "decinput": "Base64EncodedCiphertext",   //Or ciphertext, depending on algorithm
-            "decryptionkey": "YourSecretKey"  //Depends on algorithm requirement - see notes below
+            "algorithm": "AES",   // Or "OTP", "3DES", or "RSA"
+            "decinput": "Base64EncodedCiphertext",   // Or ciphertext, depending on algorithm
+            "decryptionkey": "YourSecretKey"  // Depends on algorithm requirement - see notes below
         }
         ```
 
@@ -122,7 +175,7 @@ This is a simple web application built with Django and React for encryption and 
 *   **RSA:**
     *   The `encryptionkey` for encryption should be the *content* of the `public_key.pem` file.
     *   The `decryptionkey` for decryption should be the *content* of the `private_key.pem` file.
-    *   *Important Security Note:* This example transmits the private key from the client to the server.  **This is highly insecure and should NEVER be done in a real application!**  The private key should be securely stored on the server and only accessed by the server-side code.
+    *   *Important Security Note:* This example transmits the private key from the client to the server. **This is highly insecure and should NEVER be done in a real application!** The private key should be securely stored on the server and only accessed by the server-side code.
 
 *   **Error Handling:** The API provides basic error responses for invalid input or unsupported algorithms.
 
