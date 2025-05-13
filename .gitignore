@@ -27,3 +27,6 @@ dist-ssr
 EcryptionEnv
 Env/
 Env2/
+
+#Certificates
+/certs
