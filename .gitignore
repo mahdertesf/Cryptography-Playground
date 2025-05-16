@@ -27,6 +27,14 @@ dist-ssr
 EcryptionEnv
 Env/
 Env2/
+ENv/
 
 #Certificates
-/certs
+certs
+
+#.env
+*.env
+*.env.*
+*pem
+*.p12
+*pem.*

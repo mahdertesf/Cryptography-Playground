@@ -1,5 +1,8 @@
 import { useState } from "react";
-import CopyButton from "./components/CopyButton";
+import CopyButton from "./components/CopyButton"; 
+
+
+const API_BASE_URL = "https://localhost:8443";
 
 export default function App() {
   const [algorithm, setAlgorithm] = useState("OTP");
@@ -13,8 +16,9 @@ export default function App() {
 
   const encryptHandler = async () => {
     setError("");
+    setEncoutput(""); // Clear previous output
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/encryption/", {
+      const response = await fetch(`${API_BASE_URL}/api/encryption/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -25,21 +29,26 @@ export default function App() {
           encryptionkey: encryptionkey,
         }),
       });
+
+      const responseData = await response.json(); // Try to parse JSON regardless of response.ok initially
+
       if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.error);
+        // If responseData.error exists, use it, otherwise provide a generic error
+        throw new Error(responseData.error || `HTTP error! status: ${response.status}`);
       }
-      const data = await response.json();
-      setEncoutput(data.enc_ciphertext);
-    } catch (error) {
-      setError(error.message);
+
+      setEncoutput(responseData.enc_ciphertext);
+    } catch (err) {
+      console.error("Encryption error:", err);
+      setError(err.message || "An unknown error occurred during encryption.");
     }
   };
 
   const decryptHandler = async () => {
     setError("");
+    setDecoutput(""); // Clear previous output
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/decryption/", {
+      const response = await fetch(`${API_BASE_URL}/api/decryption/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -50,14 +59,18 @@ export default function App() {
           decryptionkey: decryptionkey,
         }),
       });
+
+      const responseData = await response.json(); // Try to parse JSON regardless of response.ok initially
+
       if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.error);
+        // If responseData.error exists, use it, otherwise provide a generic error
+        throw new Error(responseData.error || `HTTP error! status: ${response.status}`);
       }
-      const data = await response.json();
-      setDecoutput(data.dec_ciphertext);
-    } catch (error) {
-      setError(error.message);
+
+      setDecoutput(responseData.dec_ciphertext);
+    } catch (err) {
+      console.error("Decryption error:", err);
+      setError(err.message || "An unknown error occurred during decryption.");
     }
   };
 

@@ -12,8 +12,11 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -25,11 +28,13 @@ SECRET_KEY = 'django-insecure-ba3du32)ql2vq2w@2772s6)lt7y()6ddm$+%su8#uthrmm9gpn
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 CORS_ALLOW_ALL_ORIGINS = True  # Allow all origins (for development only)  so you will remove it on produciton
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # React frontend might be changed later
-
+    "http://localhost:3000",
+    "https://localhost:3000", 
+    "http://localhost:5173",
+    "https://localhost:5173"
 ]
 
 
@@ -46,6 +51,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'rest_framework',
     'corsheaders',
+    'sslserver'
 ]
 
 MIDDLEWARE = [
