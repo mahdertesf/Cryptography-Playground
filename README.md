@@ -121,48 +121,6 @@ This is a simple web application built with Django and React for encryption and 
     *   Click the "Decrypt" button to send an API request to the `/decryptor/` endpoint in Django and see the decrypted result in the corresponding "Result" section. The decrypted text should match the original "Hello Mahder" message.
         ![My Image](/readmefiles/image12.png)
 
-## API Endpoints (Django)
-
-*   **`/encrypt` (POST):** Encrypts a message.
-
-    *   **Request Body:**
-
-        ```json
-        {
-            "algorithm": "AES",   // Or "OTP", "3DES", or "RSA"
-            "encinput": "Hello World",
-            "encryptionkey": "YourSecretKey"  // Depends on algorithm requirement - see notes below
-        }
-        ```
-
-    *   **Response:**
-
-        ```json
-        {
-            "enc_ciphertext": "Base64EncodedCiphertext" // Or ciphertext, depending on algorithm
-        }
-        ```
-
-*   **`/decrypt` (POST):** Decrypts a message.
-
-    *   **Request Body:**
-
-        ```json
-        {
-            "algorithm": "AES",   // Or "OTP", "3DES", or "RSA"
-            "decinput": "Base64EncodedCiphertext",   // Or ciphertext, depending on algorithm
-            "decryptionkey": "YourSecretKey"  // Depends on algorithm requirement - see notes below
-        }
-        ```
-
-    *   **Response:**
-
-        ```json
-        {
-            "dec_ciphertext": "Hello World"
-        }
-        ```
-
 ## Key Requirements and Notes
 
 *   **OTP:** The key *must* be the same length as the message to encrypt/decrypt. Generate strong, random keys of sufficient length.
